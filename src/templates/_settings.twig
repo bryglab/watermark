@@ -1,0 +1,25 @@
+{# @var plugin \stefanladner\craftwatermark\watermark #}
+{# @var settings \stefanladner\craftwatermark\models\Settings #}
+
+{% import '_includes/forms.twig' as forms %}
+
+{{ forms.textField({
+    first: true,
+    label: 'Foo',
+    name: 'test',
+    value: settings.test
+}) }}
+
+{{ forms.elementSelectField({
+    label: "image",
+    id: "imageId",
+    name: "imageId",
+    viewMode: "list",
+    elementType: 'craft\\elements\\Asset',
+    selectionLabel: "Watermark",
+    required: false,
+    errors: settings.getErrors('imageId'),
+    limit: 1,
+    elements: images,
+    criteria: { kind: 'image'}
+}) }}
