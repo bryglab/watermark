@@ -5,9 +5,8 @@ namespace stefanladner\craftwatermark;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
-use craft\events\ModelEvent;
 use craft\helpers\FileHelper;
-use craft\records\VolumeFolder;
+use craft\services\ImageTransforms;
 use stefanladner\craftwatermark\models\SettingsModel;
 use stefanladner\craftwatermark\twigextensions\WatermarkTwigExtension;
 use Twig\Error\LoaderError;
@@ -32,7 +31,7 @@ class Watermark extends Plugin
     public string $schemaVersion = '1.0.0';
     public bool $hasCpSettings = true;
 
-    public static $directory;
+    public static string $directory = '';
 
     public static function config(): array
     {
@@ -83,11 +82,11 @@ class Watermark extends Plugin
                 $images[] = Craft::$app->elements->getElementById($imgId);
             }
         }
+
         return Craft::$app->view->renderTemplate('watermark/_settings.twig', [
             'plugin' => $this,
             'settings' => $settings,
-            'images' => $images,
-            //'folderUid' => $folderUid
+            'images' => $images
         ]);
 
     }
@@ -95,6 +94,7 @@ class Watermark extends Plugin
     private function attachEventHandlers(): void
     {
 
+        // remove the old directory and create a new one if the directory has changed
         Event::on(
             Plugin::class,
             Plugin::EVENT_AFTER_SAVE_SETTINGS,
@@ -109,6 +109,18 @@ class Watermark extends Plugin
                 } else {
                     FileHelper::clearDirectory($oldPath);
                 }
+            }
+        );
+
+        // remove all watermarked images if the asset index data is deleted
+        // TODO: This is not working yet
+        Event::on(
+            ImageTransforms::class,
+            ImageTransforms::EVENT_BEFORE_INVALIDATE_ASSET_TRANSFORMS,
+            function (Event $event) {
+                $path = Craft::getAlias('@webroot/' . Watermark::$directory);
+                // throw new \Exception($path);
+                FileHelper::clearDirectory($path);
             }
         );
 

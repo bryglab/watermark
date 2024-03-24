@@ -5,6 +5,7 @@ use Craft;
 use craft\base\Model;
 use Imagine\Imagick\Imagick;
 use stefanladner\craftwatermark\Watermark;
+use yii\base\InvalidConfigException;
 
 class WatermarkModel extends Model
 {
@@ -27,26 +28,44 @@ class WatermarkModel extends Model
         // TODO: Implement getAssetPath() method.
     }
 
+    public function getFormat(): string
+    {
+        return Watermark::getInstance()->getSettings()->format;
+    }
+
+    /**
+     * @throws \ImagickException
+     * @throws InvalidConfigException
+     */
     public function getWatermark(): \Imagick
     {
         $watermarkId        = Watermark::getInstance()->getSettings()->imageId[0];
         $watermarkAsset     = Craft::$app->assets->getAssetById($watermarkId);
         $watermarkFsPath    = Craft::getAlias($watermarkAsset->getVolume()->fs->path);
         $watermark          = $watermarkFsPath . DIRECTORY_SEPARATOR . $watermarkAsset->getPath();
-        return new \Imagick($watermark);
+        $watermark = new \Imagick($watermark);
+        $watermark->resizeImage(
+            Watermark::getInstance()->getSettings()->watermarkWidth,
+            Watermark::getInstance()->getSettings()->watermarkHeight,
+            Imagick::FILTER_LANCZOS,
+            1,
+            Watermark::getInstance()->getSettings()->bestFit
+
+        );
+        return $watermark;
     }
 
     public function getWatermarkedImage($assetId): string
     {
         $directory = $this->getDirectory();
-        return $directory . md5($assetId) . '.jpg';
+        return $directory . md5($assetId) . '.' . $this->getFormat();
     }
 
     public function createWatermark($image, $options): string
     {
         // Create the watermarked image
         $directory = $this->getAbsoluteDirectory();
-        $filename = md5($image->id) . '.jpg';
+        $filename = md5($image->id) . '.' . $this->getFormat();
 
         $watermarkAsset     = Craft::$app->assets->getAssetById($image->id);
         $watermarkFsPath    = Craft::getAlias($watermarkAsset->getVolume()->fs->path);
@@ -55,9 +74,8 @@ class WatermarkModel extends Model
         // TODO Implement sub folder structure to identify the image
 
         $imagick = new \Imagick($watermark);
-        $imagick->resizeImage(500, 300, Imagick::FILTER_LANCZOS, 1);
-        $imagick->compositeImage($this->getWatermark(), Imagick::COMPOSITE_OVER, 15, 15);
-        $newImagePath = $directory . md5($image->id) . '.jpg';
+        $imagick->compositeImage($this->getWatermark(), Imagick::COMPOSITE_OVER, 0, 0);
+        $newImagePath = $directory . md5($image->id) . '.' . $this->getFormat();;
         $imagick->writeImage($newImagePath);
         $imagick->clear();
 
@@ -67,7 +85,7 @@ class WatermarkModel extends Model
     public function exists($assetId): bool
     {
         $directory = $this->getAbsoluteDirectory();
-        $path = $directory . md5($assetId) . '.jpg';
+        $path = $directory . md5($assetId) . '.' . $this->getFormat();;
         return file_exists($path);
     }
 

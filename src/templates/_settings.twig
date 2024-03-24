@@ -4,17 +4,21 @@
 
 {% import '_includes/forms.twig' as forms %}
 
-<p>dsa</p>
+<h1>Watermark Plugin</h1>
+<p></p>
+
 {{ forms.textField({
     first: true,
     label: 'Watermarked image directory',
     name: 'directory',
     value: settings.directory,
     placeholder: 'Images will be placed in the web root directory',
+    required: true,
+    instructions: 'The directory where the watermarked images will be saved. This should be a path relative to the web root directory.',
 }) }}
 
 {{ forms.elementSelectField({
-    label: "watermark"|t,
+    label: "Watermark Image"|t,
     id: "imageId",
     name: "imageId",
     viewMode: "list",
@@ -24,5 +28,72 @@
     errors: settings.getErrors('imageId'),
     limit: 1,
     elements: images,
-    criteria: { kind: 'image'}
+    criteria: { kind: 'image'},
+    required: true,
+    instructions: "Select the image you want to use as a watermark."
+}) }}
+{{ forms.textField({
+    label: "Watermark width",
+    name: "watermarkWidth",
+    value: settings.watermarkWidth,
+    type: "number",
+    min: 100,
+    required: true,
+    instructions: "The width of the watermark in pixel of the image width."
+}) }}
+{{ forms.textField({
+    label: "Watermark height",
+    name: "watermarkHeight",
+    value: settings.watermarkHeight,
+    type: "number",
+    required: true,
+    instructions: "The height of the watermark in pixel of the image width."
+}) }}
+
+{{ forms.lightSwitchField({
+    label: "Maintain aspect ratios",
+    name: 'bestFit',
+    value: settings.bestFit,
+    on: settings.bestFit,
+    instructions: "Whether to maintain the aspect ratio of the watermark.",
+}) }}
+
+<hr />
+
+{{ forms.selectField({
+    label: "Position",
+    name: "position",
+    value: settings.position,
+    instructions: "The position of the watermark on the image.",
+    options: [
+        { label: "Top Left", value: "top-left" },
+        { label: "Top Center", value: "top-center" },
+        { label: "Top Right", value: "top-right" },
+        { label: "Center Left", value: "center-left" },
+        { label: "Center Center", value: "center-center" },
+        { label: "Center Right", value: "center-right" },
+        { label: "Bottom Left", value: "bottom-left" },
+        { label: "Bottom Center", value: "bottom-center" },
+        { label: "Bottom Right", value: "bottom-right" },
+    ],
+}) }}
+
+{{ forms.selectField({
+    label: "Format",
+    name: "format",
+    value: settings.format,
+    instructions: "The format of the watermarked image.",
+    options: [
+        { label: "JPEG", value: "jpeg" },
+        { label: "PNG", value: "png" },
+        { label: "GIF", value: "gif" },
+        { label: "WEBP", value: "webp" },
+    ],
+}) }}
+
+<hr />
+<h2>Clear images</h2>
+<p>You can clear the generated watermarked images by pressing this button.</p>
+{{ forms.submitButton({
+    label: 'Clear watermarked images',
 }) }}

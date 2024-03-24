@@ -9,16 +9,20 @@ use craft\base\Model;
  */
 class SettingsModel extends Model
 {
-    public string $pluginName = 'Watermark';
 
-    public string $directory = '';
-
-    public array $imageId = [];
+    public string   $directory       = 'watermarks';
+    public string   $format          = 'jpg';
+    public string   $position        = 'top-left';
+    public array    $imageId         = [];
+    public int      $watermarkWidth  = 100;
+    public int      $watermarkHeight = 100;
+    public bool     $bestFit         = true;
 
     public function rules(): array
     {
         return [
-            [['directory'], 'required']
+            // TODO: Check, width and height should be required
+            [['directory', 'imageId', 'watermarkWidth', 'watermarkHeight'], 'required']
         ];
     }
 

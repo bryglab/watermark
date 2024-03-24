@@ -1,10 +1,52 @@
 # Watermark Plugin for Craft CMS
 
-A Craft CMS Plugin to add watermarks to images
+A Craft CMS Plugin to add watermarks to images.\
+Whether it's a social image or an inline image in your project, you can add a watermark image to it.
 
-## Requirements
+Works with both Imagick and GD.
 
-This plugin requires Craft CMS 4.8.0 or later, and PHP 8.0.2 or later.
+## Usage
+
+Pretty simple, just use the `watermark` filter in your templates:
+
+```twig
+{% set image = entry.image.one() | watermark %}
+<img src="{{ image }}" ...>
+```
+
+The `watermark` filter accepts optional parameters to specify the watermark image:
+
+```twig
+{% set options = {
+    transform: 'handle/array',
+    asset: 'override settings with an asset object',
+    position: 'top-left|top-center|top-right|center-left|center-center|center-right|bottom-left|bottom-center|bottom-right',
+    padding: 10,
+    width: 100,
+    height: 100,
+    opacity: 0.5,
+    blendMode: 'normal|multiply|screen|overlay|darken|lighten|color-dodge|color-burn|hard-light|soft-light|difference|exclusion|hue|saturation|color|luminosity',
+    quality: 75,
+    format: 'jpg|png|gif|webp'
+} %}
+{% set image = entry.image.one() | watermark(options) %}
+```
+
+## Settings
+
+Please check the plugin settings page in the Craft Control Panel.
+There are some important settings you should configure before using the plugin.
+
+* **Directory**: The directory where the watermarked images are stored.
+* **Watermark Image**: The image to use as a watermark.
+* **Position**: The position of the watermark on the image.
+* **Padding**: The padding around the watermark.
+* **Width**: The width of the watermark.
+* **Height**: The height of the watermark.
+* **Opacity**: The opacity of the watermark.
+* **Blend Mode**: The blend mode of the watermark.
+* **Quality**: The quality of the output image.
+* **Format**: The format of the output image.
 
 ## Installation
 
@@ -28,3 +70,6 @@ composer require stefanladner/craft-watermark
 # tell Craft to install the plugin
 ./craft plugin/install watermark
 ```
+## Requirements
+
+This plugin requires Craft CMS 4.8.0 or later, and PHP 8.0.2 or later.
