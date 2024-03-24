@@ -3,3 +3,4 @@ ecs.php
 phpstan.neon
 .gitattributes
 .github/
+temp

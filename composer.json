@@ -28,7 +28,7 @@
         "name": "Watermark",
         "developer": "Stefan Ladner",
         "documentationUrl": "https://github.com/stefanladner/craft-watermark",
-        "class": "stefanladner\\craftwatermark\\watermark"
+        "class": "stefanladner\\watermark\\watermark"
     },
     "scripts": {
         "check-cs": "ecs check --ansi",

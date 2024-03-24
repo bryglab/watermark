@@ -8,16 +8,15 @@ use craft\base\Model;
 /**
  * Watermark settings
  */
-class Settings extends Model
+class SettingsModel extends Model
 {
-    public string $test = '';
-
-    public array $imageId = [];
+    public string $directory    = '';
+    public array $imageId       = [];
 
     public function rules(): array
     {
         return [
-            [['test'], 'required']
+            [['directory', 'imageId'], 'required']
         ];
     }
 }

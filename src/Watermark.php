@@ -5,16 +5,23 @@ namespace stefanladner\craftwatermark;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
+use craft\events\RegisterCpNavItemsEvent;
+use craft\web\twig\variables\Cp;
 use craft\records\VolumeFolder;
-use stefanladner\craftwatermark\models\Settings;
+use stefanladner\craftwatermark\models\SettingsModel;
 use stefanladner\craftwatermark\twigextensions\WatermarkTwigExtension;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
+use yii\base\Exception;
+use yii\base\InvalidConfigException;
 
 /**
  * Watermark plugin
  *
  * @method static watermark getInstance()
- * @method Settings getSettings()
+ * @method SettingsModel getSettings()
  * @author Stefan Ladner <stefan.ladner@gmail.com>
  * @copyright Stefan Ladner
  * @license https://craftcms.github.io/license/ Craft License
@@ -48,12 +55,21 @@ class watermark extends Plugin
 
     }
 
-    protected function createSettingsModel(): ?Model
+    /**
+     * @throws InvalidConfigException
+     */
+    protected function createSettingsModel(): ? Model
     {
-        return Craft::createObject(Settings::class);
+        return Craft::createObject(SettingsModel::class);
     }
 
-    protected function settingsHtml(): ?string
+    /**
+     * @throws SyntaxError
+     * @throws Exception
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    protected function settingsHtml(): ? string
     {
 
         $settings = $this->getSettings();

@@ -1,17 +1,19 @@
-{# @var plugin \stefanladner\craftwatermark\watermark #}
-{# @var settings \stefanladner\craftwatermark\models\Settings #}
+
+
+{% do view.registerAssetBundle("stefanladner\\craftwatermark\\assetbundles\\WatermarkAsset") %}
 
 {% import '_includes/forms.twig' as forms %}
 
+<p>dsa</p>
 {{ forms.textField({
     first: true,
-    label: 'Foo',
-    name: 'test',
-    value: settings.test
+    label: 'Watermarked image directory',
+    name: 'directory',
+    value: settings.directory
 }) }}
 
 {{ forms.elementSelectField({
-    label: "image",
+    label: "watermark"|t,
     id: "imageId",
     name: "imageId",
     viewMode: "list",
