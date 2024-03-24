@@ -15,15 +15,17 @@ class WatermarkTwigExtension extends AbstractExtension
         ];
     }
 
-    public function watermark($image, $options): false|string
+    public function watermark($image, $options = false): false|string
     {
         $watermark = new WatermarkModel();
-        if ($watermark->exists()) {
+        if ($watermark->exists($image->id)) {
             // Return the watermarked image
             return $watermark->getWatermarkedImage($image->id);
+
         } else {
             // Create the watermarked image
             return $watermark->createWatermark($image, $options);
+
         }
     }
 }

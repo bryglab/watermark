@@ -9,8 +9,11 @@ use craft\base\Model;
  */
 class SettingsModel extends Model
 {
-    public string $directory    = '';
-    public array $imageId       = [];
+    public string $pluginName = 'Watermark';
+
+    public string $directory = '';
+
+    public array $imageId = [];
 
     public function rules(): array
     {
@@ -18,4 +21,5 @@ class SettingsModel extends Model
             [['directory', 'imageId'], 'required']
         ];
     }
+
 }
