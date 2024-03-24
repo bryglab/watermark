@@ -7,14 +7,16 @@ Works with both Imagick and GD.
 
 ## Usage
 
-Pretty simple, just use the `watermark` filter in your templates:
+Pretty simple, just use the `watermark` filter in your templates, witch will return a full url to the watermarked image.
 
 ```twig
 {% set image = entry.image.one() | watermark %}
 <img src="{{ image }}" ...>
 ```
 
+
 The `watermark` filter accepts optional parameters to specify the watermark image:
+
 
 ```twig
 {% set options = {
@@ -24,8 +26,6 @@ The `watermark` filter accepts optional parameters to specify the watermark imag
     padding: 10,
     width: 100,
     height: 100,
-    opacity: 0.5,
-    blendMode: 'normal|multiply|screen|overlay|darken|lighten|color-dodge|color-burn|hard-light|soft-light|difference|exclusion|hue|saturation|color|luminosity',
     quality: 75,
     format: 'jpg|png|gif|webp'
 } %}

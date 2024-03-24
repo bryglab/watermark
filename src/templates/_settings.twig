@@ -91,6 +91,20 @@
     ],
 }) }}
 
+{{ forms.selectField({
+    label: "Quality",
+    name: "quality",
+    value: settings.quality,
+    instructions: "The quality of the watermarked image.",
+    options: [
+        { label: "Low",         value: "10" },
+        { label: "Medium",      value: "30" },
+        { label: "High",        value: "60" },
+        { label: "Very High",   value: "80" },
+        { label: "Maximum",     value: "100" },
+    ],
+}) }}
+
 <hr />
 <h2>Clear images</h2>
 <p>You can clear the generated watermarked images by pressing this button.</p>

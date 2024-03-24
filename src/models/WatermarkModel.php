@@ -23,11 +23,6 @@ class WatermarkModel extends Model
         return DIRECTORY_SEPARATOR . Watermark::getInstance()->getSettings()->directory . DIRECTORY_SEPARATOR;
     }
 
-    public function getAssetPath(): string
-    {
-        // TODO: Implement getAssetPath() method.
-    }
-
     public function getFormat(): string
     {
         return Watermark::getInstance()->getSettings()->format;
@@ -50,7 +45,6 @@ class WatermarkModel extends Model
             Imagick::FILTER_LANCZOS,
             1,
             Watermark::getInstance()->getSettings()->bestFit
-
         );
         return $watermark;
     }
@@ -61,6 +55,10 @@ class WatermarkModel extends Model
         return $directory . md5($assetId) . '.' . $this->getFormat();
     }
 
+    /**
+     * @throws InvalidConfigException
+     * @throws \ImagickException
+     */
     public function createWatermark($image, $options): string
     {
         // Create the watermarked image
@@ -71,11 +69,17 @@ class WatermarkModel extends Model
         $watermarkFsPath    = Craft::getAlias($watermarkAsset->getVolume()->fs->path);
         $watermark          = $watermarkFsPath . DIRECTORY_SEPARATOR . $watermarkAsset->getPath();
 
-        // TODO Implement sub folder structure to identify the image
+        $newImagePath = $directory . md5($image->id) . '.' . $this->getFormat();
 
         $imagick = new \Imagick($watermark);
-        $imagick->compositeImage($this->getWatermark(), Imagick::COMPOSITE_OVER, 0, 0);
-        $newImagePath = $directory . md5($image->id) . '.' . $this->getFormat();;
+        $imagick->compositeImage(
+            $this->getWatermark(),
+            Imagick::COMPOSITE_OVER,
+            $this->getPositionX($imagick, $this->getWatermark(), Watermark::getInstance()->getSettings()->position),
+            $this->getPositionY($imagick, $this->getWatermark(), Watermark::getInstance()->getSettings()->position),
+        );
+        $imagick->setImageCompressionQuality(Watermark::getInstance()->getSettings()->quality);
+        $imagick->setimageformat($this->getFormat());
         $imagick->writeImage($newImagePath);
         $imagick->clear();
 
@@ -87,6 +91,31 @@ class WatermarkModel extends Model
         $directory = $this->getAbsoluteDirectory();
         $path = $directory . md5($assetId) . '.' . $this->getFormat();;
         return file_exists($path);
+    }
+
+    public function getPositionX($image, $watermark, $position)
+    {
+        $imageWidth = $image->getImageWidth();
+        $watermarkWidth = $watermark->getImageWidth();
+
+        return match ($position) {
+            'top-right', 'bottom-right', 'center-right' => $imageWidth - $watermarkWidth,
+            'top-center', 'bottom-center', 'center-center' => ($imageWidth - $watermarkWidth) / 2,
+            default => 0,
+        };
+    }
+
+    public function getPositionY($image, $watermark, $position)
+    {
+        $imageHeight = $image->getImageHeight();
+        $watermarkHeight = $watermark->getImageHeight();
+
+        return match ($position) {
+            'bottom-left', 'bottom-right', 'bottom-center' => $imageHeight - $watermarkHeight,
+            'center-left', 'center-right', 'center-center' => ($imageHeight - $watermarkHeight) / 2,
+            default => 0,
+        };
+
     }
 
     public function doWatermarkTransform()

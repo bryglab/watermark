@@ -16,6 +16,7 @@ class SettingsModel extends Model
     public array    $imageId         = [];
     public int      $watermarkWidth  = 100;
     public int      $watermarkHeight = 100;
+    public int      $quality         = 80;
     public bool     $bestFit         = true;
 
     public function rules(): array
