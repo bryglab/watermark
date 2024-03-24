@@ -2,7 +2,6 @@
 
 namespace stefanladner\craftwatermark\models;
 
-use Craft;
 use craft\base\Model;
 
 /**

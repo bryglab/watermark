@@ -5,8 +5,7 @@ namespace stefanladner\craftwatermark;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
-use craft\events\RegisterCpNavItemsEvent;
-use craft\web\twig\variables\Cp;
+use craft\helpers\FileHelper;
 use craft\records\VolumeFolder;
 use stefanladner\craftwatermark\models\SettingsModel;
 use stefanladner\craftwatermark\twigextensions\WatermarkTwigExtension;
@@ -27,7 +26,7 @@ use yii\base\InvalidConfigException;
  * @license https://craftcms.github.io/license/ Craft License
  */
 
-class watermark extends Plugin
+class Watermark extends Plugin
 {
     public string $schemaVersion = '1.0.0';
     public bool $hasCpSettings = true;
@@ -45,10 +44,8 @@ class watermark extends Plugin
     {
         parent::init();
 
-        // Defer most setup tasks until Craft is fully initialized
         Craft::$app->onInit(function() {
             $this->attachEventHandlers();
-            // ...
         });
 
         Craft::$app->view->registerTwigExtension(new WatermarkTwigExtension());
@@ -97,7 +94,16 @@ class watermark extends Plugin
 
     private function attachEventHandlers(): void
     {
-        // Register event handlers here ...
-        // (see https://craftcms.com/docs/4.x/extend/events.html to get started)
+
+        Event::on(
+            Plugin::class,
+            Plugin::EVENT_AFTER_SAVE_SETTINGS,
+            function (Event $event) {
+                $settings = $this->getSettings();
+                $folderPath = Craft::getAlias('@webroot/' . $settings->directory);
+                FileHelper::createDirectory($folderPath);
+            }
+        );
+
     }
 }
