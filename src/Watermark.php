@@ -5,6 +5,7 @@ namespace stefanladner\craftwatermark;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
+use craft\events\ModelEvent;
 use craft\helpers\FileHelper;
 use craft\records\VolumeFolder;
 use stefanladner\craftwatermark\models\SettingsModel;
@@ -31,6 +32,8 @@ class Watermark extends Plugin
     public string $schemaVersion = '1.0.0';
     public bool $hasCpSettings = true;
 
+    public static $directory;
+
     public static function config(): array
     {
         return [
@@ -43,6 +46,9 @@ class Watermark extends Plugin
     public function init(): void
     {
         parent::init();
+
+        // Used to store the directory where the watermarked images are stored
+        Watermark::$directory = $this->getSettings()->directory;
 
         Craft::$app->onInit(function() {
             $this->attachEventHandlers();
@@ -68,8 +74,8 @@ class Watermark extends Plugin
      */
     protected function settingsHtml(): ? string
     {
-
         $settings = $this->getSettings();
+
         // to load currently selected assets
         $images = [];
         if ($settings->imageId) {
@@ -77,17 +83,11 @@ class Watermark extends Plugin
                 $images[] = Craft::$app->elements->getElementById($imgId);
             }
         }
-        // to limit asset selection to one folder
-        $volume = Craft::$app->volumes->getVolumeByHandle('images');//it could be the volume handle you created before
-        $volFolderRecord = VolumeFolder::findOne([
-            'volumeId' => $volume->id
-        ]);
-        $folderUid = $volFolderRecord->uid;
         return Craft::$app->view->renderTemplate('watermark/_settings.twig', [
             'plugin' => $this,
-            'settings' => $this->getSettings(),
+            'settings' => $settings,
             'images' => $images,
-            'folderUid' => $folderUid
+            //'folderUid' => $folderUid
         ]);
 
     }
@@ -100,8 +100,15 @@ class Watermark extends Plugin
             Plugin::EVENT_AFTER_SAVE_SETTINGS,
             function (Event $event) {
                 $settings = $this->getSettings();
-                $folderPath = Craft::getAlias('@webroot/' . $settings->directory);
-                FileHelper::createDirectory($folderPath);
+                $baseDirectory = explode('/', Watermark::$directory);
+                $oldPath = Craft::getAlias( '@webroot/' . $baseDirectory[0]);
+                $newPath = Craft::getAlias('@webroot/' . $settings->directory);
+                if (Watermark::$directory !== $settings->directory) {
+                    FileHelper::removeDirectory($oldPath);
+                    FileHelper::createDirectory($newPath);
+                } else {
+                    FileHelper::clearDirectory($oldPath);
+                }
             }
         );
 

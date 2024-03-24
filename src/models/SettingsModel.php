@@ -18,7 +18,7 @@ class SettingsModel extends Model
     public function rules(): array
     {
         return [
-            [['directory', 'imageId'], 'required']
+            [['directory'], 'required']
         ];
     }
 

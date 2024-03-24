@@ -10,7 +10,6 @@ class WatermarkModel extends Model
 {
 
     public array $watermark = [];
-
     public string $directory = '';
 
     public function getAbsoluteDirectory(): string
@@ -21,6 +20,11 @@ class WatermarkModel extends Model
     public function getDirectory(): string
     {
         return DIRECTORY_SEPARATOR . Watermark::getInstance()->getSettings()->directory . DIRECTORY_SEPARATOR;
+    }
+
+    public function getAssetPath(): string
+    {
+        // TODO: Implement getAssetPath() method.
     }
 
     public function getWatermark(): \Imagick
@@ -43,12 +47,16 @@ class WatermarkModel extends Model
         // Create the watermarked image
         $directory = $this->getAbsoluteDirectory();
         $filename = md5($image->id) . '.jpg';
+
         $watermarkAsset     = Craft::$app->assets->getAssetById($image->id);
         $watermarkFsPath    = Craft::getAlias($watermarkAsset->getVolume()->fs->path);
         $watermark          = $watermarkFsPath . DIRECTORY_SEPARATOR . $watermarkAsset->getPath();
 
+        // TODO Implement sub folder structure to identify the image
+
         $imagick = new \Imagick($watermark);
         $imagick->resizeImage(500, 300, Imagick::FILTER_LANCZOS, 1);
+        $imagick->compositeImage($this->getWatermark(), Imagick::COMPOSITE_OVER, 15, 15);
         $newImagePath = $directory . md5($image->id) . '.jpg';
         $imagick->writeImage($newImagePath);
         $imagick->clear();
@@ -65,7 +73,7 @@ class WatermarkModel extends Model
 
     public function doWatermarkTransform()
     {
-
+        // TODO: Implement doWatermarkTransform() method.
     }
 
 
