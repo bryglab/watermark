@@ -1,10 +1,10 @@
 <?php
-namespace stefanladner\craftwatermark\models;
+namespace bryglab\watermark\models;
 
 use Craft;
 use craft\base\Model;
 use Imagine\Imagick\Imagick;
-use stefanladner\craftwatermark\Watermark;
+use bryglab\watermark\Watermark;
 use yii\base\InvalidConfigException;
 
 class WatermarkModel extends Model
@@ -111,12 +111,13 @@ class WatermarkModel extends Model
         $watermarkHeight = $watermark->getImageHeight();
 
         return match ($position) {
-            'bottom-left', 'bottom-right', 'bottom-center' => $imageHeight - $watermarkHeight,
-            'center-left', 'center-right', 'center-center' => ($imageHeight - $watermarkHeight) / 2,
+            'bottom-left', 'bottom-center', 'bottom-right' => $imageHeight - $watermarkHeight,
+            'center-left', 'center-center', 'center-right' => ($imageHeight - $watermarkHeight) / 2,
             default => 0,
         };
-
     }
+
+
 
     public function doWatermarkTransform()
     {

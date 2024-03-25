@@ -1,11 +1,11 @@
 <?php
 
-namespace stefanladner\craftwatermark\twigextensions;
+namespace bryglab\watermark\twigextensions;
 
-use stefanladner\craftwatermark\Watermark;
+use bryglab\watermark\Watermark;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use stefanladner\craftwatermark\models\WatermarkModel;
+use bryglab\watermark\models\WatermarkModel;
 
 class WatermarkTwigExtension extends AbstractExtension
 {

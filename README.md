@@ -15,7 +15,7 @@ Pretty simple, just use the `watermark` filter in your templates, witch will ret
 ```
 
 
-The `watermark` filter accepts optional parameters to specify the watermark image:
+The `watermark` filter accepts optional parameters to override the general settings just for your use case:
 
 
 ```twig
@@ -35,7 +35,7 @@ The `watermark` filter accepts optional parameters to specify the watermark imag
 ## Settings
 
 Please check the plugin settings page in the Craft Control Panel.
-There are some important settings you should configure before using the plugin.
+There are some important settings you should configure before using the filter.
 
 * **Directory**: The directory where the watermarked images are stored.
 * **Watermark Image**: The image to use as a watermark.
@@ -43,8 +43,6 @@ There are some important settings you should configure before using the plugin.
 * **Padding**: The padding around the watermark.
 * **Width**: The width of the watermark.
 * **Height**: The height of the watermark.
-* **Opacity**: The opacity of the watermark.
-* **Blend Mode**: The blend mode of the watermark.
 * **Quality**: The quality of the output image.
 * **Format**: The format of the output image.
 
@@ -65,7 +63,7 @@ Open your terminal and run the following commands:
 cd /path/to/my-project.test
 
 # tell Composer to load the plugin
-composer require stefanladner/craft-watermark
+composer require bryglab/watermark
 
 # tell Craft to install the plugin
 ./craft plugin/install watermark

@@ -1,5 +1,5 @@
 <?php
-namespace stefanladner\craftwatermark\assetbundles;
+namespace bryglab\watermark\assetbundles;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
@@ -11,7 +11,7 @@ class WatermarkAsset extends AssetBundle
 
     public function init(): void
     {
-        $this->sourcePath = "@stefanladner/craftwatermark/resources/";
+        $this->sourcePath = "@bryglab/watermark/resources/";
 
         $this->depends = [
             CpAsset::class,

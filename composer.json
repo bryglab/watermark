@@ -1,39 +1,37 @@
 {
-    "name": "stefanladner/craft-watermark",
+    "name": "bryglab/watermark",
     "description": "A Craft CMS Plugin to add watermarks to images",
     "type": "craft-plugin",
     "license": "proprietary",
     "support": {
-        "email": "stefan.ladner@gmail.com",
-        "issues": "https://github.com/stefanladner/craft-watermark/issues?state=open",
-        "source": "https://github.com/stefanladner/craft-watermark",
-        "docs": "https://github.com/stefanladner/craft-watermark",
-        "rss": "https://github.com/stefanladner/craft-watermark/releases.atom"
+        "email": "plugins@bryglab.io",
+        "issues": "https://github.com/bryglab/watermark/issues?state=open",
+        "source": "https://github.com/bryglab/watermark",
+        "docs": "https://github.com/bryglab/watermark",
+        "rss": "https://github.com/bryglab/watermark/releases.atom"
     },
+    "keywords": [
+        "craftcms",
+        "plugin",
+        "watermark",
+        "image",
+        "image manipulation"
+    ],
     "require": {
         "php": ">=8.0.2",
         "craftcms/cms": "^4.8.0"
     },
-    "require-dev": {
-        "craftcms/ecs": "dev-main",
-        "craftcms/phpstan": "dev-main"
-    },
     "autoload": {
         "psr-4": {
-            "stefanladner\\craftwatermark\\": "src/"
+            "bryglab\\watermark\\": "src/"
         }
     },
     "extra": {
         "handle": "watermark",
         "name": "Watermark",
-        "developer": "Stefan Ladner",
-        "documentationUrl": "https://github.com/stefanladner/craft-watermark",
-        "class": "stefanladner\\watermark\\watermark"
-    },
-    "scripts": {
-        "check-cs": "ecs check --ansi",
-        "fix-cs": "ecs check --ansi --fix",
-        "phpstan": "phpstan --memory-limit=1G"
+        "developer": "bryglab.io",
+        "documentationUrl": "https://github.com/bryglab/watermark",
+        "class": "bryglab\\watermark\\Watermark"
     },
     "config": {
         "sort-packages": true,

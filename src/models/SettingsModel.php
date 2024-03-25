@@ -1,6 +1,6 @@
 <?php
 
-namespace stefanladner\craftwatermark\models;
+namespace bryglab\watermark\models;
 
 use craft\base\Model;
 
