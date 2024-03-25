@@ -1,4 +1,5 @@
 <?php
+
 namespace bryglab\watermark\assetbundles;
 
 use craft\web\AssetBundle;
