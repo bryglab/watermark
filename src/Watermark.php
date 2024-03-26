@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Watermark plugin for Craft CMS 3.x
+ *
+ * Watermark your images
+ *
+ * @link      https://bryglab.io
+ * @package   Watermark
+ * @since     1.0.0
+ */
 namespace bryglab\watermark;
 
 use Craft;
@@ -10,6 +18,12 @@ use bryglab\watermark\models\SettingsModel;
 use bryglab\watermark\twigextensions\WatermarkTwigExtension;
 use yii\base\Event;
 
+/**
+ * Class Watermark
+ * @package bryglab\watermark
+ *
+ * @property-read SettingsModel $settings
+ */
 class Watermark extends Plugin
 {
     public string $schemaVersion = '1.0.0';
@@ -52,9 +66,9 @@ class Watermark extends Plugin
 
         // to load currently selected assets
         $images = [];
-        if ($settings->imageId) {
-            foreach ($settings->imageId as $imgId) {
-                $images[] = Craft::$app->elements->getElementById($imgId);
+        if ($settings->watermarkImage) {
+            foreach ($settings->watermarkImage as $watermark) {
+                $images[] = Craft::$app->elements->getElementById($watermark);
             }
         }
 
@@ -62,6 +76,9 @@ class Watermark extends Plugin
 
     }
 
+    /**
+     * Attach event handlers
+     */
     private function attachEventHandlers(): void
     {
 

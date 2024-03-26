@@ -8,30 +8,67 @@ use Imagine\Imagick\Imagick;
 use bryglab\watermark\Watermark;
 use bryglab\watermark\services\WatermarkService;
 
+/**
+ * Class WatermarkModel
+ * @package bryglab\watermark\models
+ */
 class WatermarkModel extends Model
 {
 
+    // Public Properties
     public array $watermark = [];
-    public string $directory = '';
+    public string $directory = 'watermark';
+    public string $format = 'jpg';
+    public int $quality = 100;
+    public int $watermarkWidth = 100;
+    public int $watermarkHeight = 100;
+    public bool $bestFit = true;
+    public string $position = 'top-left';
+    public array $watermarkImage = [];
 
+
+    /**
+     * @return string
+     */
     public function getAbsoluteDirectory(): string
     {
         return Craft::getAlias('@webroot') . DIRECTORY_SEPARATOR . Watermark::getInstance()->getSettings()->directory . DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * @return string
+     */
     public function getDirectory(): string
     {
         return DIRECTORY_SEPARATOR . Watermark::getInstance()->getSettings()->directory . DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * @return string
+     */
     public function getFormat(): string
     {
         return Watermark::getInstance()->getSettings()->format;
     }
 
+    /**
+     * @param $assetId
+     * @return bool
+     */
+    public function exists($assetId): bool
+    {
+        $directory = $this->getAbsoluteDirectory();
+        $path = $directory . md5($assetId) . '.' . $this->getFormat();
+        return file_exists($path);
+    }
+
+    /**
+     * @return \Imagick
+     * @throws \ImagickException|\yii\base\InvalidConfigException
+     */
     public function getWatermark(): \Imagick
     {
-        $watermarkId = Watermark::getInstance()->getSettings()->imageId[0];
+        $watermarkId = Watermark::getInstance()->getSettings()->watermarkImage[0];
         $watermarkAsset = Craft::$app->assets->getAssetById($watermarkId);
         $watermarkFsPath = Craft::getAlias($watermarkAsset->getVolume()->fs->path);
         $watermark = $watermarkFsPath . DIRECTORY_SEPARATOR . $watermarkAsset->getPath();
@@ -40,12 +77,22 @@ class WatermarkModel extends Model
         return $watermark;
     }
 
+    /**
+     * @param $assetId
+     * @return string
+     */
     public function getWatermarkedImage($assetId): string
     {
         $directory = $this->getDirectory();
         return $directory . md5($assetId) . '.' . $this->getFormat();
     }
 
+    /**
+     * @param $image
+     * @param $options
+     * @return string
+     * @throws \ImagickException
+     */
     public function createWatermark($image, $options): string
     {
         // Create the watermarked image
@@ -68,14 +115,13 @@ class WatermarkModel extends Model
         return $this->getDirectory() . $filename;
     }
 
-    public function exists($assetId): bool
-    {
-        $directory = $this->getAbsoluteDirectory();
-        $path = $directory . md5($assetId) . '.' . $this->getFormat();
-        return file_exists($path);
-    }
-
-    public function getPositionX($image, $watermark, $position)
+    /**
+     * @param $image
+     * @param $watermark
+     * @param $position
+     * @return int
+     */
+    public function getPositionX($image, $watermark, $position): int
     {
         $imageWidth = $image->getImageWidth();
         $watermarkWidth = $watermark->getImageWidth();
@@ -87,7 +133,13 @@ class WatermarkModel extends Model
         };
     }
 
-    public function getPositionY($image, $watermark, $position)
+    /**
+     * @param $image
+     * @param $watermark
+     * @param $position
+     * @return int
+     */
+    public function getPositionY($image, $watermark, $position): int
     {
         $imageHeight = $image->getImageHeight();
         $watermarkHeight = $watermark->getImageHeight();

@@ -4,11 +4,22 @@ namespace bryglab\watermark\services;
 
 use Craft;
 use craft\base\Component;
+use yii\base\InvalidConfigException;
 
+/**
+ * Watermark service
+ * @package bryglab\watermark\services
+ */
 class WatermarkService extends Component
 {
 
-    public function applyWatermark($assetId)
+    /**
+     * Apply watermark to the asset
+     *
+     * @param int $assetId
+     * @throws \ImagickException|InvalidConfigException
+     */
+    public function applyWatermark($assetId): void
     {
         $watermarkModel = new WatermarkModel();
         $watermark = $watermarkModel->getWatermark();
