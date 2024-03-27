@@ -17,6 +17,7 @@ use craft\helpers\FileHelper;
 use bryglab\watermark\models\SettingsModel;
 use bryglab\watermark\twigextensions\WatermarkTwigExtension;
 use yii\base\Event;
+use yii\base\InvalidConfigException;
 
 /**
  * Class Watermark
@@ -55,7 +56,10 @@ class Watermark extends Plugin
 
     }
 
-    protected function createSettingsModel(): ?Model
+    /**
+     * @throws InvalidConfigException
+     */
+    protected function createSettingsModel(): ? Model
     {
         return Craft::createObject(SettingsModel::class);
     }

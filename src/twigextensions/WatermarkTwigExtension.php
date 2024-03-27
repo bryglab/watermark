@@ -4,6 +4,7 @@ namespace bryglab\watermark\twigextensions;
 
 use bryglab\watermark\Watermark;
 use bryglab\watermark\models\WatermarkModel;
+use bryglab\watermark\services\WatermarkService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -25,23 +26,24 @@ class WatermarkTwigExtension extends AbstractExtension
 
     /**
      * @param $image
-     * @param bool $options
+     * @param array $options
      * @return false|string
      * @throws \Exception
      */
-    public function watermark($image, $options = false): false|string
+    public function watermark($image, array $options = []): false|string
     {
-        $watermark = new WatermarkModel();
-        if ($watermark->exists($image->id)) {
+        $model = new WatermarkModel();
+        $service = new WatermarkService();
+        if ($model->exists($image->id)) {
             // Return the watermarked image
-            return $watermark->getWatermarkedImage($image->id);
+            return $model->getWatermarkedImage($image->id);
 
         } else {
             // Create the watermarked image
             if (!Watermark::getInstance()->getSettings()->watermarkImage) {
                 throw new \Exception("No watermark image found.\nDefine a watermark image in the plugin settings.");
             }
-            return $watermark->createWatermark($image, $options);
+            return $service->createWatermark($image, $options);
 
         }
     }

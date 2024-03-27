@@ -10,8 +10,8 @@ Works with both Imagick and GD.
 Pretty simple, just use the `watermark` filter in your templates, witch will return a full url to the watermarked image.
 
 ```twig
-{% set image = entry.image.one() | watermark %}
-<img src="{{ image }}" ...>
+{% set image = entry.image.one() %}
+<img src="{{ image | watermark }}" ...>
 ```
 
 
