@@ -75,8 +75,6 @@ class WatermarkService extends Component
             $asset = $asset . DIRECTORY_SEPARATOR . $image->getPath();
         }
 
-        // TODO IMPORTANT simplify variable names, bloody chaos here. urgh!
-
         // check if directory exists
         if (!file_exists($directory)) {
             mkdir($directory, 0777, true);
