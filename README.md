@@ -1,3 +1,5 @@
+![plugin-1](https://github.com/bryglab/watermark/assets/8834024/3316d867-0036-4d65-b925-289a275dcd3b)
+
 # Watermark Plugin for Craft CMS
 
 A Craft CMS Plugin to add watermarks to images.\
