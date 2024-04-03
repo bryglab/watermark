@@ -1,5 +1,5 @@
 {
-    "name": "bryglab/watermark",
+    "name": "bryglab/craft-watermark",
     "description": "A Craft CMS Plugin to add watermarks to images",
     "type": "craft-plugin",
     "license": "proprietary",
