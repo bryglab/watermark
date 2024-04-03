@@ -69,8 +69,9 @@ class WatermarkService extends Component
         // define asset paths
         if (isset($options['transform'])) {
             $asset = $image->getUrl($options['transform'], true);
-            $asset = str_replace(Craft::$app->sites->getCurrentSite()->baseUrl, '', $asset);
-            $asset = Craft::getAlias('@webroot') . DIRECTORY_SEPARATOR . $asset;
+            $asset = str_replace(Craft::getAlias('@webroot'), '', $asset);
+            $asset = str_replace(Craft::getAlias('@web'), '', $asset);
+            $asset = Craft::getAlias('@webroot') . $asset;
         } else {
             $asset = Craft::getAlias($image->getVolume()->fs->path);
             $asset = $asset . DIRECTORY_SEPARATOR . $image->getPath();
