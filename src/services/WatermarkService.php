@@ -6,7 +6,6 @@ use Craft;
 use craft\base\Component;
 use Imagine\Imagick\Imagick;
 use bryglab\watermark\Watermark;
-use bryglab\watermark\models\SettingsModel;
 use bryglab\watermark\models\WatermarkModel;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
@@ -29,7 +28,6 @@ class WatermarkService extends Component
     {
         // Create the watermarked image
         $model = new WatermarkModel();
-        $settings = new SettingsModel();
 
         // define options
         $watermarkId = $options['asset']->id ?? Watermark::getInstance()->getSettings()->watermarkImage[0];
@@ -70,6 +68,10 @@ class WatermarkService extends Component
         );
         $imagick->setImageCompressionQuality($quality);
         $imagick->setimageformat($format);
+        // check if directory exists
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+        }
         $imagick->writeImage($newImagePath);
         $imagick->clear();
 
@@ -88,8 +90,7 @@ class WatermarkService extends Component
         $watermarkWidth = $watermark->getImageWidth();
 
         return match ($position) {
-            'top-right', 'bottom-right' => $imageWidth - $watermarkWidth - $padding,
-            'center-right' => $imageWidth - $watermarkWidth,
+            'top-right', 'bottom-right', 'center-right' => $imageWidth - $watermarkWidth - $padding,
             'top-center', 'bottom-center', 'center-center' => ($imageWidth - $watermarkWidth) / 2 + $padding,
             default => 0 + $padding
         };
@@ -108,16 +109,14 @@ class WatermarkService extends Component
 
         return match ($position) {
             'bottom-left', 'bottom-center', 'bottom-right' => $imageHeight - $watermarkHeight - $padding,
-            'center-left', 'center-center', 'center-right' => ($imageHeight - $watermarkHeight) / 2,
+            'center-center' => ($imageHeight - $watermarkHeight) / 2,
+            'center-left', 'center-right' => ($imageHeight - $watermarkHeight) / 2 - $padding,
             default => 0 + $padding
         };
     }
 
+    private function createFromImagix() {
 
-    public function doWatermarkTransform()
-    {
-        // TODO: Implement doWatermarkTransform() method.
     }
-
 
 }

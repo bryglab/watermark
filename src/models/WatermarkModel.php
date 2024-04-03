@@ -13,6 +13,7 @@ use bryglab\watermark\Watermark;
 class WatermarkModel extends Model
 {
 
+
     // Public Properties
     public array $watermark = [];
     public string $directory = 'watermark';

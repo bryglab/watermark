@@ -7,7 +7,7 @@ Works with both Imagick and GD.
 
 ## Usage
 
-Pretty simple, just use the `watermark` filter in your templates, witch will return a full url to the watermarked image.
+Pretty simple, just use the `watermark` filter in your templates, which will return a ***full url (!)*** to the watermarked image.
 
 ```twig
 {% set image = entry.image.one() %}
@@ -27,7 +27,8 @@ The `watermark` filter accepts optional parameters to override the general setti
     width: 100,
     height: 100,
     quality: 75,
-    format: 'jpg|png|gif|webp'
+    format: 'jpg|png|gif|webp',
+    mode: 'fit|stretch'
 } %}
 {% set image = entry.image.one() | watermark(options) %}
 ```

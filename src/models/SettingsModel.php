@@ -11,15 +11,15 @@ use craft\base\Model;
 class SettingsModel extends Model
 {
 
-    public string $directory;
-    public string $format;
-    public string $position;
-    public array $watermarkImage;
-    public int $watermarkWidth;
-    public int $watermarkHeight;
-    public int $quality;
-    public int $padding;
-    public bool $bestFit;
+    public string $directory = 'watermarks';
+    public string $format = 'jpg';
+    public string $position = 'top-left';
+    public array $watermarkImage = [];
+    public int $watermarkWidth = 100;
+    public int $watermarkHeight = 100;
+    public int $quality = 80;
+    public int $padding = 0;
+    public bool $bestFit = true;
 
     public function rules(): array
     {
