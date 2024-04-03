@@ -94,8 +94,7 @@ class WatermarkService extends Component
     }
 
     private function createFromImagix($watermark, $asset, $newImagePath, $position, $padding, $quality, $format, $model, $filename) {
-
-        Craft::dd($watermark);
+        
         $watermark = new \Imagick($watermark);
         $asset = new \Imagick($asset);
 
