@@ -62,14 +62,17 @@ class WatermarkService extends Component
             'format' => 'png'
         );
         $watermark = $watermarkAsset->getUrl($watermarkTransform, true);
-        $watermark = str_replace(Craft::$app->sites->getCurrentSite()->baseUrl, '', $watermark);
-        $watermark = Craft::getAlias('@webroot') . DIRECTORY_SEPARATOR . $watermark;
+        //$watermark = str_replace(Craft::$app->sites->getCurrentSite()->baseUrl, '', $watermark);
+        $watermark = str_replace(Craft::getAlias('@webroot'), '', $watermark);
+        $watermark = str_replace(Craft::getAlias('@web'), '', $watermark);
+        $watermark = Craft::getAlias('@webroot') . $watermark;
 
         // define asset paths
         if (isset($options['transform'])) {
             $asset = $image->getUrl($options['transform'], true);
-            $asset = str_replace(Craft::$app->sites->getCurrentSite()->baseUrl, '', $asset);
-            $asset = Craft::getAlias('@webroot') . DIRECTORY_SEPARATOR . $asset;
+            $asset = str_replace(Craft::getAlias('@webroot'), '', $asset);
+            $asset = str_replace(Craft::getAlias('@web'), '', $asset);
+            $asset = Craft::getAlias('@webroot') . $asset;
         } else {
             $asset = Craft::getAlias($image->getVolume()->fs->path);
             $asset = $asset . DIRECTORY_SEPARATOR . $image->getPath();
@@ -92,6 +95,7 @@ class WatermarkService extends Component
 
     private function createFromImagix($watermark, $asset, $newImagePath, $position, $padding, $quality, $format, $model, $filename) {
 
+        Craft::dd($watermark);
         $watermark = new \Imagick($watermark);
         $asset = new \Imagick($asset);
 
