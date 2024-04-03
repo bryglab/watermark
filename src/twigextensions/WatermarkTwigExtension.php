@@ -5,6 +5,7 @@ namespace bryglab\watermark\twigextensions;
 use bryglab\watermark\Watermark;
 use bryglab\watermark\models\WatermarkModel;
 use bryglab\watermark\services\WatermarkService;
+use Craft;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -34,7 +35,10 @@ class WatermarkTwigExtension extends AbstractExtension
     {
         $model = new WatermarkModel();
         $service = new WatermarkService();
-        if ($model->exists($image->id)) {
+        if (!$image) {
+            throw new \Exception("No image found.");
+        }
+        if ($image->id and $model->exists($image->id)) {
             // Return the watermarked image
             return $model->getWatermarkedImage($image->id);
 

@@ -1,3 +1,9 @@
+{# @var plugin \bryglab\watermark\Watermark #}
+{# @var settings \bryglab\watermark\models\Settings #}
+
+{% import '_includes/forms.twig' as forms %}
+
+{# ... #}
 {# Watermark plugin settings#}
 
 {% do view.registerAssetBundle("bryglab\\watermark\\assetbundles\\WatermarkAsset") %}
@@ -36,7 +42,7 @@
         value: settings.watermarkWidth,
         type: "number",
         min: 100,
-        size: "NOPE",
+        size: "small",
         required: true,
         instructions: "The width of the watermark in pixel of the image width."
     }) }}
@@ -46,7 +52,7 @@
         value: settings.watermarkHeight,
         type: "number",
         required: true,
-        size: "NOPE",
+        size: "small",
         instructions: "The height of the watermark in pixel of the image width."
     }) }}
 
@@ -63,6 +69,7 @@
         name: "padding",
         value: settings.padding,
         type: "number",
+        size: "small",
         instructions: "The padding of the watermark in pixel.",
     }) }}
 

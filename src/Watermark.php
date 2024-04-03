@@ -98,7 +98,9 @@ class Watermark extends Plugin
                 FileHelper::removeDirectory($oldPath);
                 FileHelper::createDirectory($newPath);
             } else {
-                FileHelper::clearDirectory($oldPath);
+                if (is_dir($oldPath)) {
+                    FileHelper::clearDirectory($oldPath);
+                }
             }
         });
 
