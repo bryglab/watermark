@@ -1,0 +1,33 @@
+
+<svg width="448px" height="287px" viewBox="0 0 448 287" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="0%" y1="34.3020565%" x2="100%" y2="65.6979435%" id="linearGradient-1">
+            <stop stop-color="#D100C5" offset="0%"></stop>
+            <stop stop-color="#030057" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile" transform="translate(-100.000000, -188.000000)">
+            <g id="Group-3">
+                <g id="Rectangle-3" transform="translate(100.000000, 188.000000)">
+                    <g id="Group-2">
+                        <g id="Group">
+                            <g id="Rectangle-2" stroke="#FFFFFF" stroke-width="10">
+                                <rect id="Rectangle" x="5" y="5" width="389.394285" height="213.468138"></rect>
+                            </g>
+                            <polygon id="Rectangle" fill="#FFFFFF" points="80.5509597 87.7755152 146.081187 144.531186 199.697143 111.899601 376.761942 151.979342 376.761942 201.286856 21.3010285 201.286856 21.3010285 173.171476"></polygon>
+                            <ellipse id="Oval" fill="#FFFFFF" cx="307.5336" cy="47.6732028" rx="14.6444571" ry="14.566812"></ellipse>
+                        </g>
+                        <g id="Group" transform="translate(318.000000, 196.500000) rotate(-13.000000) translate(-318.000000, -196.500000) translate(200.000000, 130.000000)">
+                            <g id="Rectangle-2" transform="translate(0.803083, 0.066992)" fill="url(#linearGradient-1)" stroke="#FFFFFF" stroke-width="10">
+                                <rect id="Rectangle" x="5" y="5" width="224.644143" height="121.475883"></rect>
+                            </g>
+                            <polygon id="Rectangle" fill="#FFFFFF" points="48.376092 51.4926428 86.9058348 84.9926428 118.430355 65.7318698 222.538969 89.3889124 222.538969 118.492643 13.538969 118.492643 13.538969 101.897556"></polygon>
+                            <circle id="Oval" fill="#FFFFFF" cx="181.529676" cy="27.8093399" r="8.5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

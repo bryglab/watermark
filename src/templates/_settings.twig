@@ -1,0 +1,133 @@
+{# @var plugin \bryglab\watermark\Watermark #}
+{# @var settings \bryglab\watermark\models\Settings #}
+
+{% import '_includes/forms.twig' as forms %}
+
+{# ... #}
+{# Watermark plugin settings#}
+
+{% do view.registerAssetBundle("bryglab\\watermark\\assetbundles\\WatermarkAsset") %}
+{% import '_includes/forms.twig' as forms %}
+{% block content %}
+
+    <h1>Watermark settings</h1>
+
+    {{ forms.textField({
+        first: true,
+        label: 'Watermarked image directory',
+        name: 'directory',
+        value: settings.directory,
+        placeholder: 'Images will be placed in the web root directory',
+        required: true,
+        instructions: 'The directory where the watermarked images will be saved. This should be a path relative to the web root directory.',
+    }) }}
+
+    {{ forms.elementSelectField({
+        label: "Watermark Image"|t,
+        id: "watermarkImage",
+        name: "watermarkImage",
+        viewMode: "list",
+        elementType: 'craft\\elements\\Asset',
+        selectionLabel: "Watermark image",
+        errors: settings.getErrors('watermarkImage'),
+        limit: 1,
+        elements: images,
+        criteria: { kind: 'image'},
+        required: true,
+        instructions: "Select the image you want to use as a watermark."
+    }) }}
+    {{ forms.textField({
+        label: "Watermark width",
+        name: "watermarkWidth",
+        value: settings.watermarkWidth,
+        type: "number",
+        min: 100,
+        size: "small",
+        required: true,
+        instructions: "The width of the watermark in pixel of the image width."
+    }) }}
+    {{ forms.textField({
+        label: "Watermark height",
+        name: "watermarkHeight",
+        value: settings.watermarkHeight,
+        type: "number",
+        required: true,
+        size: "small",
+        instructions: "The height of the watermark in pixel of the image width."
+    }) }}
+
+    {{ forms.lightSwitchField({
+        label: "Maintain aspect ratios",
+        name: 'bestFit',
+        value: settings.bestFit,
+        on: settings.bestFit,
+        instructions: "Whether to maintain the aspect ratio of the watermark.",
+    }) }}
+
+    {{ forms.textField({
+        label: "Watermark padding",
+        name: "padding",
+        value: settings.padding,
+        type: "number",
+        size: "small",
+        instructions: "The padding of the watermark in pixel.",
+    }) }}
+
+    <hr />
+
+    {{ forms.selectField({
+        label: "Position",
+        name: "position",
+        value: settings.position,
+        instructions: "The position of the watermark on the image.",
+        options: [
+            { label: "Top Left", value: "top-left" },
+            { label: "Top Center", value: "top-center" },
+            { label: "Top Right", value: "top-right" },
+            { label: "Center Left", value: "center-left" },
+            { label: "Center Center", value: "center-center" },
+            { label: "Center Right", value: "center-right" },
+            { label: "Bottom Left", value: "bottom-left" },
+            { label: "Bottom Center", value: "bottom-center" },
+            { label: "Bottom Right", value: "bottom-right" },
+        ],
+    }) }}
+
+    {{ forms.selectField({
+        label: "Format",
+        name: "format",
+        value: settings.format,
+        instructions: "The format of the watermarked image.",
+        options: [
+            { label: "JPG", value: "jpg" },
+            { label: "PNG", value: "png" },
+            { label: "GIF", value: "gif" },
+            { label: "WEBP", value: "webp" },
+        ],
+    }) }}
+
+    {{ forms.selectField({
+        label: "Quality",
+        name: "quality",
+        value: settings.quality,
+        instructions: "The quality of the watermarked image.",
+        options: [
+            { label: "Low",         value: "10" },
+            { label: "Medium",      value: "30" },
+            { label: "High",        value: "60" },
+            { label: "Very High",   value: "80" },
+            { label: "Maximum",     value: "100" },
+        ],
+    }) }}
+
+    <hr />
+    <h2>Clear images</h2>
+    <p>You can clear the generated watermarked images by pressing this button.</p>
+    <button
+            id="cleanDirectory"
+            class="btn"
+            data-csrf-token-value="{{ craft.app.request.getCsrfToken() }}"
+            data-csrf-token-name="{{ craft.app.config.general.csrfTokenName }}">Clear watermarked images
+    </button>
+
+{% endblock %}
