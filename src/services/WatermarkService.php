@@ -62,8 +62,9 @@ class WatermarkService extends Component
             'format' => 'png'
         );
         $watermark = $watermarkAsset->getUrl($watermarkTransform, true);
-        $watermark = str_replace(Craft::$app->sites->getCurrentSite()->baseUrl, '', $watermark);
-        $watermark = Craft::getAlias('@webroot') . DIRECTORY_SEPARATOR . $watermark;
+        $watermark = str_replace(Craft::getAlias('@webroot'), '', $watermark);
+        $watermark = str_replace(Craft::getAlias('@web'), '', $watermark);
+        $watermark = Craft::getAlias('@webroot') . $watermark;
 
         // define asset paths
         if (isset($options['transform'])) {
